@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Illuminate\Routing\Router;
+use Upgate\LaravelJsonRpc\Contract\ServerInterface as JsonRpcServerContract;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -69,5 +71,24 @@ class RouteServiceProvider extends ServiceProvider
              ->middleware('api')
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
+    }
+
+    /**
+     * @param Router $router
+     */
+    protected function mapJsonRPC(Router $router)
+    {
+        $router->group(['namespace' => $this->namespace],
+            function (Router $router) {
+                // Create an instance of JsonRpcServer
+                $jsonRpcServer = $this->app->make(JsonRpcServerContract::class);
+                // Set default controller namespace
+                $jsonRpcServer->setControllerNamespace($this->namespace);
+                // Register middleware aliases configured for Laravel router
+                $jsonRpcServer->registerMiddlewareAliases($router->getMiddleware());
+
+                require app_path('routes/json-rpc.php');
+            }
+        );
     }
 }

@@ -160,6 +160,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        'Thiagof\LaravelRPC\RpcServiceProvider'
     ],
 
     /*
@@ -209,6 +210,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        'Thiagof\LaravelRPC\RpcClientFacade',
+        'Thiagof\LaravelRPC\RpcServerFacade',
     ],
 
 ];
