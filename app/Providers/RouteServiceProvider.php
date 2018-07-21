@@ -78,7 +78,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapJsonRPC(Router $router)
     {
-        $router->group(['namespace' => $this->namespace],
+        $router->group(
+            ['namespace' => $this->namespace],
             function (Router $router) {
                 // Create an instance of JsonRpcServer
                 $jsonRpcServer = $this->app->make(JsonRpcServerContract::class);

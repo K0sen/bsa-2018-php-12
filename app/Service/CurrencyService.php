@@ -41,6 +41,12 @@ class CurrencyService
         return $currency;
     }
 
+    /**
+     * @param       $name
+     * @param float $price
+     * @param       $id
+     * @return Currency|null
+     */
     public function shortNameAndActualPriceUpdate($name, float $price, $id)
     {
         $currency = $this->currencyRepository->getById($id);
@@ -52,5 +58,20 @@ class CurrencyService
             'short_name' => $name,
             'actual_course' => $price
         ]));
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     * @throws \Exception
+     */
+    public function delete($id): bool
+    {
+        $currency = $this->currencyRepository->getById($id);
+        if (!$currency) {
+            throw new NotFoundResourceException('Currency was not found');
+        }
+
+        return $this->currencyRepository->delete($currency);
     }
 }

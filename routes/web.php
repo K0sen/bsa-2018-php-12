@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\JsonRpcController;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,3 +21,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::post('/currencies', function(JsonRpcController $jsonRpcController) {
+    $server = app('JsonRpcServer');
+    $server->attach($jsonRpcController);
+    $server->execute();
+});

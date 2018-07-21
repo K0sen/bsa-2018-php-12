@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Service\CurrencyService;
 
 class JsonRpcController extends Controller
@@ -21,7 +20,7 @@ class JsonRpcController extends Controller
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getCurrencyList()
+    public function list()
     {
         return response()->json($this->currencyService->getCurrencyList());
     }
@@ -32,7 +31,7 @@ class JsonRpcController extends Controller
      * @param       $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function shortNameAndActualPriceUpdate($name, float $price, $id)
+    public function update($name, float $price, $id)
     {
         $updatedCurrency = $this->currencyService
             ->shortNameAndActualPriceUpdate($name, $price, $id);
@@ -40,8 +39,26 @@ class JsonRpcController extends Controller
         return response()->json($updatedCurrency);
     }
 
-    public function getCurrency($id)
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function detail($id)
     {
         return response()->json($this->currencyService->findById($id));
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function delete($id)
+    {
+        if ($this->currencyService->delete($id)) {
+            return response()->json('Currency was successfully removed');
+        }
+
+        return response()->json('Currency was not removed for some reason', 404);
     }
 }

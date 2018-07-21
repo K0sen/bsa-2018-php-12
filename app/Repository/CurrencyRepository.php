@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Currency;
+use App\Service\CurrencyService;
 use Illuminate\Support\Collection;
 
 class CurrencyRepository
@@ -31,5 +32,15 @@ class CurrencyRepository
     public function update(Currency $currency): ?Currency
     {
         return $currency->save() ? $currency : null;
+    }
+
+    /**
+     * @param Currency $currency
+     * @return bool
+     * @throws \Exception
+     */
+    public function delete(Currency $currency): bool
+    {
+        return $currency->delete();
     }
 }
